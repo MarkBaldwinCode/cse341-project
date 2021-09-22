@@ -1,12 +1,7 @@
 const { name } = require('ejs');
 const fs = require('fs');
 
-const requestHandler = (req, res) => {
-
-    const url = req.url;
-    const method = req.method;
-
-    let userNames =  
+let userNames =  
     [   "Bugs Bunny",
         "Daffy Duck",
         "Elmer Fud",
@@ -16,6 +11,13 @@ const requestHandler = (req, res) => {
         "Foghorn Leghorn",
         "Marvin the Martian" 
     ]
+
+const requestHandler = (req, res) => {
+
+    const url = req.url;
+    const method = req.method;
+
+    
 
     if (url === '/'){
         res.write('<html>');
