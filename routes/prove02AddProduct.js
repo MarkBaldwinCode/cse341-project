@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
 
   router.post('/removeBook', (req, res, next) => {
     newBooks = newBooks.filter(book => book !== req.body.removeBook);
-    return res.end();
+    return res.end(); 
   })
   
 });
