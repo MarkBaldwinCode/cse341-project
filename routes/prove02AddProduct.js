@@ -13,6 +13,10 @@ router.get('/', (req, res, next) => {
     books: newBooks
   })
 
+  router.get('/addBook', (req, res, next) =>{
+    res.send('a string');
+  })
+
   router.post('/addBook', (req, res, next) => {
     console.log(req.body);
     newBooks.push({title: req.body.bookName});
