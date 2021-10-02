@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 
-let newBooks = ['A Century of Flight'];
+let newBooks = [];
 
 router.get('/', (req, res, next) => {
   res.render('pages/prove02AddProduct', {
@@ -19,7 +19,8 @@ router.get('/', (req, res, next) => {
 
   router.post('/addBook', (req, res, next) => {
     console.log(req.body);
-    newBooks.push({title: req.body.bookName});
+    newBooks.push({title: req.body.title});
+    console.log(newBooks);
     res.redirect('/prove02Shop');
   })
 
