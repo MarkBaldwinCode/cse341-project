@@ -6,7 +6,7 @@ const router = express.Router();
 let newUsers = ['Nick'];
 
 router.get('/', (req, res, next) => {
-  res.render('pages/ta02', {
+  res.render('./pages/teamActivities/ta02', {
     title: 'Team Activity 02',
     path: '/ta02', // For pug, EJS
     activeTA03: true, // For HBS

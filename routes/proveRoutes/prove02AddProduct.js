@@ -5,7 +5,7 @@ const router = express.Router();
 const newBooks = [];
 
 router.get('/', (req, res, next) => {
-  res.render('pages/prove02AddProduct', {
+  res.render('./pages/proveActivities/prove02AddProduct', {
     title: 'Prove Activity 02 Add Product',
     path: '/prove02AddProduct', // For pug, EJS
     activeTA03: true, // For HBS
@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
     console.log(req.body);
     newBooks.push({title: req.body.title});
     console.log(newBooks);
-    res.redirect('/prove02Shop');
+    res.redirect('/proveActivities/prove02Shop');
   })
 
   router.post('/removeBook', (req, res, next) => {
@@ -33,3 +33,4 @@ router.get('/', (req, res, next) => {
 
 module.exports = router;
 module.newBooks = newBooks;
+global.testBooks = newBooks;
