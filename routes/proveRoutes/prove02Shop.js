@@ -2,12 +2,11 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 
-const bookData = require('./prove02AddProduct');
-
-let newBooks = ['A Century of Flight'];
+const newBooks = require('./prove02AddProduct');
 
   router.get('/', (req, res, next) => {
-    const books = bookData.books;
+    const books = newBooks.books;
+    console.log(books);
     res.render('pages/prove02Shop', {
         bks: books, 
         docTitle: 'prove02Shop', 

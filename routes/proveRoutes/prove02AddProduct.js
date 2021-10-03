@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 
-let newBooks = [];
+const newBooks = [];
 
 router.get('/', (req, res, next) => {
   res.render('pages/prove02AddProduct', {
