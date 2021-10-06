@@ -1,7 +1,9 @@
 let newBooks = ['A Century of Flight'];
 
 exports.getAddProduct = (req, res, next) => {
-    res.render('prove02AddProduct', {
+    const books = newBooks.books;
+    console.log(global.testBooks);
+    res.render('./pages/proveActivities/prove02Shop', {
                 docTitle: 'Add Product', 
                 path:'/prove02AddProduct/addProduct',
                 formsCSS: true,
@@ -27,6 +29,5 @@ exports.getProducts = (req, res, next) => {
             productCSS:true
         });
     };
-
 
 exports.getProducts;
