@@ -3,6 +3,7 @@ const teamActivities = require('./teamRoutes');
 const proveActivites = require('./proveRoutes');
 
 routes
+   
     .use('/teamActivities', teamActivities)
     .use('/proveActivities', proveActivites)
 

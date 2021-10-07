@@ -9,15 +9,6 @@ const app = express();
 // Route setup. You can implement more in the future!
 const routes = require('./routes');
 
-
-/*const ta01Routes = require('./routes/ta01');
-const ta02Routes = require('./routes/ta02');
-const ta03Routes = require('./routes/ta03');
-const ta04Routes = require('./routes/ta04');
-const prove02ShopRoutes = require('./routes/prove02Shop');
-const prove02AddProductRoutes = require('./routes/prove02AddProduct');
-const p02ShopRoutes = require('./routes/p02Shop');*/
-
 app
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
