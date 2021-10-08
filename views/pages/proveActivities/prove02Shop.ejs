@@ -11,12 +11,12 @@
   <h1>My Book List</h1>
   <main>
     <h1>My Products</h1>
-    
+    <% if (books.length > 0) { %>
         <div class="grid">
-           
+            <% for (let book of books) { %>
             <article class="card product-item">
                 <header class="card__header">
-                    <h1 class="product__title"></h1>
+                    <h1 class="product__title"><%= book.title %></h1>
                 </header>
                 <div class="card__image">
                     <img src="" alt="A Book">
@@ -29,9 +29,11 @@
                     <button class="btn">Add to Cart</button>
                 </div>
             </article>
-           
+            <% } %>
         </div>
    
-        <h1>No products found</h1>          
-        <li><a href="/prove02AddProduct">Add Products Page</a></li>
+        <% } else { %>
+            <h1>No Books found</h1>  
+        <% } %>          
+        <li><a href="/proveActivities/prove02AddProduct">Add Products Page</a></li>
 </main>

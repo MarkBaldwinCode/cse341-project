@@ -6,8 +6,6 @@ const fs = require('fs');
 
 let newUsers = ['Nick'];
 
-
-
 exports.getTA02 = (req, res, next) => {
   res.render('./pages/teamActivities/ta02', {
     title: 'Team Activity 02',
@@ -33,25 +31,29 @@ exports.postTA02RemoveUser =  (req, res, next) => {
 
 
 exports.getTA03 = (req, res, next) => {
-  fs.readFile(path.join(__dirname, '..', '../../ta03.json'), 'utf8', (err, data) => {
+  fs.readFile(path.join(__dirname, '..', '../db/ta03.json'), 'utf8', (err, data) => {
     //Helps debug the error message
     if(err){
       console.error(err);
+      console.log("My error is being hit")
     }
-    console.log(req.query);
+    //console.log("above req.query")
+    //console.log(req.query);
 
-    let searchList = req.query.searchList || "";
-
-    console.log(searchList);
-    // let items = JSON.parse(data).filter( item => {
-    //   console.log(item.name.includes(searchList));
-    //   return item.name.includes(searchList);
-    //});
+    const searchList = req.query.searchList || "";
+    //console.log("above the seachlist");
+    //console.log(searchList);
+    let items = JSON.parse(data).filter( item => {
+      //console.log(item.name.includes(searchList));
+     
+      return item.name.includes(searchList);
+    });
+    //console.log(items);
 
     res.render('./pages/teamActivities/ta03', {
       title: 'Team Activity 03',
       path: '/ta03', // For pug, EJS
-      items: "",
+      items,
       userSearchList: searchList
     });
   });
