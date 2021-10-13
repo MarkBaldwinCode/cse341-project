@@ -1,4 +1,5 @@
 .form-control {
+    display: flex;
     margin: 1rem 0;
 }
 
@@ -17,4 +18,25 @@
 
 .form-control input:focus {
     outline-color: #00695c;
+}
+
+.form-addProduct {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    width: 40%;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-addProductItem {
+    display: flex;
+    padding: 1%;
+
+}
+
+.form-addProductItemBox{
+    display: flex;
+    justify-content: center;
 }
