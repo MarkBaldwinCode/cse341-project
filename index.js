@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const PORT = process.env.PORT || 5000; // So we can run on heroku || (OR) localhost:5000
+const mongoConnect = require('./util/database').mongoConnect;
 
 const app = express();
 
@@ -15,4 +16,8 @@ app
   .set('view engine', 'ejs')
   .use(bodyParser({ extended: false })) // For parsing the body of a POST
   .use('/', routes)
-  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+  
+
+  mongoConnect(() =>{
+    app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+  })
