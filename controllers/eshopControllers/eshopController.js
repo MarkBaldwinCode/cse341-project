@@ -4,33 +4,51 @@ const fs = require('fs');
 const Product = require('../../models/product');
 
 exports.getEshopHome = (req, res, next) => {
-  fs.readFile(path.join(__dirname, '..', '../db/prove03.json'), 'utf8', (err, data) => {
-    //Helps debug the error message
-    if (err) {
-      console.error(err);
-      console.log("My error is being hit")
-    }
-    //for search features
-    const searchList = req.query.searchList || "";
-    let items = JSON.parse(data).filter(item => {
-    return item.title.includes(searchList);
+  Product.fetchAll()
+    .then(products => {
+
+        res.render('pages/eShop/home', {
+        pageTitle: 'E Shop Home Page',
+        path: '/home',
+        items: products,
+        userSearchList: "" //searchList
+      });
+    })
+    .catch(err => {
+      console.log(err);
     });
 
-    res.render('pages/eShop/home', {
-      pageTitle: 'E Shop Home Page',
-      path: '/home',
-      items,
-      userSearchList: searchList
-    });
-  })
+  //for search features
+  //const searchList = req.query.searchList || "";
+  //let items = JSON.parse(data).filter(item => {
+    //return item.title.includes(searchList);
+  //});
+
+
 }
 
 exports.postAddProducts = (req, res, next) => {
+  const id = req.body.id;
   const title = req.body.title;
-  const imageUrl = req.body.imageUrl;
-  const price = req.body.price;
   const description = req.body.description;
-  const product = new Product(title, price, description, imageUrl);
+  const price = req.body.price;
+  const author = req.body.author;
+  const type = req.body.type;
+  const imageUrl = req.body.imageUrl;
+  const inCart = req.body.inCart;
+  const category = req.body.category;
+
+
+  const product = new Product(
+    id,
+    title,
+    description,
+    price,
+    author,
+    type,
+    imageUrl,
+    inCart,
+    category);
 
   product
     .save()

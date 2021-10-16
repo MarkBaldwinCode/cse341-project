@@ -1,7 +1,7 @@
 const getDb = require('../util/database').getDb;
 
 class Product {
-    constructor(title, price, description, imageUrl, author, type, category) {
+    constructor(id, title, description, price, author, type, imageUrl, inCart, category) {
         this.id = Math.random();
         this.title = title;
         this.description = description;
@@ -19,6 +19,21 @@ class Product {
         .insertOne(this)
         .then(result => {
             console.log(result);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
+    static fetchAll(){
+        const db = getDb();
+        //this type of find returns all products in products collection in mongo
+        return db.collection('products')
+        .find()
+        .toArray()
+        .then(products => {
+            console.log(products);
+            return products;
         })
         .catch(err => {
             console.log(err);
