@@ -13,7 +13,7 @@ exports.getEshopHome = (req, res, next) => {
     //for search features
     const searchList = req.query.searchList || "";
     let items = JSON.parse(data).filter(item => {
-      return item.name.includes(searchList);
+    return item.title.includes(searchList);
     });
 
     res.render('pages/eShop/home', {
@@ -36,7 +36,7 @@ exports.postAddProducts = (req, res, next) => {
     .save()
     .then(result => {
       console.log('Created Product');
-      res.redirect('pages/eShop/home');
+      res.redirect('/eShop');
     })
 
 }
