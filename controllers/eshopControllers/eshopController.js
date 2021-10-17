@@ -23,9 +23,9 @@ exports.getEshopHome = (req, res, next) => {
   //let items = JSON.parse(data).filter(item => {
     //return item.title.includes(searchList);
   //});
-
-
 }
+
+
 
 exports.postAddProducts = (req, res, next) => {
   const id = req.body.id;
@@ -72,4 +72,16 @@ exports.getCart = (req, res, next) => {
     pageTitle: 'Your E Shop Cart',
     path: '/cart'
   });
+}
+
+exports.getProduct = (req, res, next) => {
+  const prodId = req.params.productId;
+  console.log(prodId);
+  
+  Product.findById(prodId)
+  .then( product => {
+    console.log('Hitting getProduct');
+    console.log(product);
+  });
+  res.redirect('/');
 }
