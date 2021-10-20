@@ -98,6 +98,26 @@ exports.getProductDetails = (req, res, next) => {
   });
 }
 
+exports.getEditProduct = (req, res, next) => {
+  const editMode = req.query.edit;
+  if(!editMode){
+    return res.redirect('/');
+  }
+  const prodId = req.params.productId;
+  Product.findById(prodId)
+  .then(product => {
+    if(!product) {
+      return res.redirect('/');
+    }
+    res.render('/edit-product', {
+      pageTitle: 'Edit Product',
+      path:'/edit-product',
+      editing: editMode,
+      item: product
+    });
+  })
+}
+
 exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.id;
   const updatedTitle = req.body.title;
