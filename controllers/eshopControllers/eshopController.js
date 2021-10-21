@@ -1,7 +1,7 @@
-const path = require('path');
-const express = require('express');
-const fs = require('fs');
+const mongodb = require('mongodb');
 const Product = require('../../models/product');
+
+const ObjectId = mongodb.ObjectId;
 
 exports.getEshopHome = (req, res, next) => {
   Product.fetchAll()
@@ -100,26 +100,26 @@ exports.getProductDetails = (req, res, next) => {
 
 exports.getEditProduct = (req, res, next) => {
   const editMode = req.query.edit;
-  if(!editMode){
-    return res.redirect('/');
-  }
+  // if(!editMode){
+  //   return res.redirect('/');
+  // }
   const prodId = req.params.productId;
   Product.findById(prodId)
-  .then(product => {
-    if(!product) {
-      return res.redirect('/');
-    }
-    res.render('/edit-product', {
-      pageTitle: 'Edit Product',
-      path:'/edit-product',
-      editing: editMode,
-      item: product
-    });
-  })
+    .then(product => {
+      if (!product) {
+        return res.redirect('/');
+      }
+      res.render('pages/eShop/edit-product', {
+        pageTitle: 'Edit Product',
+        path: '/edit-product',
+        //editing: editMode,
+        item: product
+      });
+    })
 }
 
 exports.postEditProduct = (req, res, next) => {
-  const prodId = req.body.id;
+  const prodId = req.body.productId;
   const updatedTitle = req.body.title;
   const updatedDescription = req.body.description;
   const updatedPrice = req.body.price;
@@ -129,20 +129,26 @@ exports.postEditProduct = (req, res, next) => {
   const updatedInCart = req.body.inCart;
   const updatedCategory = req.body.category;
 
-  Product.findById(prodId)
-  .then(product => {
-    product.title = updatedTitle;
-    product.description = updatedDescription;
-    product.price = updatedPrice;
-    product.author = updatedAuthor;
-    product.type = updatedType;
-    product.imageUrl = updatedImageUrl;
-    product.inCart = updatedInCart;
-    product.category = updatedCategory;
-    return product.save();
-  })
-  .then(result => {
-    console.log('Updated Product');
-    res.redirect('/');
-  })
+
+  const product = new Product(
+    new ObjectId(prodId),
+    updatedTitle,
+    updatedDescription,
+    updatedPrice,
+    updatedAuthor,
+    updatedType,
+    updatedImageUrl,
+    updatedInCart,
+    updatedCategory
+    );
+
+    console.log('made it to product save');
+    console.log(product);
+  product
+    .save()
+    .then(result => {
+      console.log('Updated Product');
+      res.redirect('/eShop');
+    })
+    .catch(err => console.log(err));
 }

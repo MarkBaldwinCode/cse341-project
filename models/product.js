@@ -3,7 +3,7 @@ const getDb = require('../util/database').getDb;
 
 class Product {
     constructor(id, title, description, price, author, type, imageUrl, inCart, category) {
-        this.id = Math.random();
+        this._id = id;
         this.title = title;
         this.description = description;
         this.price = price;
@@ -12,6 +12,7 @@ class Product {
         this.imageUrl = imageUrl;
         this.inCart = false;
         this.category = category;
+
     }
 
     save() {
@@ -21,9 +22,12 @@ class Product {
             //Update the Product
             dbOp = db.collection('products').updateOne({_id: new mongodb.ObjectId(this._id) },
             { $set: this });
+            console.log('product was updated');
         }
         else {
-            dbOp = db.collection('products').insertOne(this);            
+            dbOp = db
+            .collection('products')
+            .insertOne(this);            
         }
         return dbOp
         .then(result => {

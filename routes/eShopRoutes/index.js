@@ -9,7 +9,8 @@ eShopRoutes
     .post('/add-products', eshopController.postAddProducts)
     .get('/', eshopController.getEshopHome)
     .get('/product-details', eshopController.getProductDetails)
-    .get('edit-product/:productId', eshopController.getEditProduct)
+    .get('/edit-product/:productId', eshopController.getEditProduct)
+    .post('/edit-product', eshopController.postEditProduct)
     .get('/:productId', eshopController.getProduct);
 
 module.exports = eShopRoutes;
