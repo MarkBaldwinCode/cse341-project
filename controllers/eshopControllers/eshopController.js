@@ -50,13 +50,15 @@ exports.postAddProducts = (req, res, next) => {
     type: type,
     imageUrl: imageUrl,
     inCart: inCart,
-    category: category
+    category: category,
+    userId: req.user._id
   });
 
   product
     .save()
     .then(result => {
       console.log('Created Product');
+      console.log(product);
       res.redirect('/eShop');
     })
 }
@@ -114,15 +116,47 @@ exports.postEditProduct = (req, res, next) => {
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.params.productId;
   Product.findByIdAndRemove(prodId)
-  .then(() => {
-    console.log('Destroyed Product');
-    res.redirect('/eShop');
-  })
+    .then(() => {
+      console.log('Destroyed Product');
+      res.redirect('/eShop');
+    })
 }
 
 exports.getCart = (req, res, next) => {
-  res.render('pages/eShop/cart', {
-    pageTitle: 'Your Cart',
-    path: '/cart'
-  });
+  console.log('In getCart');
+  req.user
+    .populate('cart.items.productId')
+    .then(user => {
+      console.log(user.cart.items);
+      const products = user.cart.items;
+      res.render('pages/eShop/cart', {
+        path: '/cart',
+        pageTitle: 'Your Cart',
+        products: products
+      });
+    })
+    .catch(err => console.log(err));
+};
+
+exports.postCart = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.findById(prodId)
+    .then(product => {
+      return req.user.addToCart(product);
+    })
+    .then(result => {
+      console.log(result);
+      console.log('hitting postCart');
+      res.redirect('/eShop/cart');
+    });
 }
+
+exports.postCartDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  req.user
+    .removeFromCart(prodId)
+    .then(result => {
+      res.redirect('./cart');
+    })
+    .catch(err => console.log(err));
+};

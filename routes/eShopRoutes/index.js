@@ -4,6 +4,8 @@ const eshopController = require('../../controllers/eshopControllers/eshopControl
 
 eShopRoutes
     .get('/cart', eshopController.getCart )
+    .post('/cart', eshopController.postCart)
+    .post('/cart-delete-item',eshopController.postCartDeleteProduct)
     .get('/add-products', eshopController.getAddProducts )
     .post('/add-products', eshopController.postAddProducts)
     .get('/', eshopController.getEshopHome)
@@ -12,5 +14,6 @@ eShopRoutes
     .post('/edit-product/:productId', eshopController.postEditProduct)
     .get('/:productId', eshopController.getProduct)
     .post('/delete-product/:productId', eshopController.postDeleteProduct);
+    
 
 module.exports = eShopRoutes;
