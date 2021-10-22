@@ -2,13 +2,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const PORT = process.env.PORT || 5000; // So we can run on heroku || (OR) localhost:5000
-const mongoConnect = require('./util/database').mongoConnect;
+const mongoose = require('mongoose');
+
+const routes = require('./routes');
 
 const app = express();
-
-// Route setup. You can implement more in the future!
-const routes = require('./routes');
+const PORT = process.env.PORT || 3000; // So we can run on heroku || (OR) localhost:5000
+const CONNECTION_STRING = 'mongodb+srv://mjbaldwin:ImeuJHQ2JSCxhNHo@cluster0.whfui.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 app
   .use(express.static(path.join(__dirname, 'public')))
@@ -16,8 +16,12 @@ app
   .set('view engine', 'ejs')
   .use(bodyParser({ extended: false })) // For parsing the body of a POST
   .use('/', routes)
-  
 
-  mongoConnect(() =>{
-    app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+mongoose
+  .connect(CONNECTION_STRING)
+  .then(result => {
+   app.listen(PORT, () => console.log(`Listening on ${PORT}`));
   })
+  .catch(err => {
+    console.log(err);
+  });

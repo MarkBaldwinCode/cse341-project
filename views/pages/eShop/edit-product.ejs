@@ -25,8 +25,8 @@
       </div>
       <main>
         <div class="container">
-          <div class="row">                        <!--edit this route-->
-            <form class="form-addProduct" action="/eShop/edit-product" method="POST">
+          <div class="row">                        
+            <form class="form-addProduct" action="/eShop/edit-product/<%= item._id %>" method="POST">
               <div class="form-addProductItem">
                 <label for="title">Book Title</label>
                 <input class="form-addProductItemBox" type="text" value="<%= item.title %>" name="title" id="title">
@@ -53,7 +53,7 @@
               </div>
               <div class="form-addProductItem">
                 <label for="description">Description</label>
-                <textarea name="description" value="<%= item.description %>" id="description" rows="5"></textarea>
+                <textarea name="description" value="" id="description" rows="5"><%= item.description %></textarea>
               </div>
               <div>
                 <button class="btn" type="submit">Update Product</button>
