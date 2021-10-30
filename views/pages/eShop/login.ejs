@@ -15,12 +15,14 @@
                     <label for="password">Password</label>
                     <input type="password" name="password" id="password">
                 </div>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button class="btn" type="submit">Login</button>
             </form>
             <div>
                 <h3>Not already signed up? Click below!</h3>
             </div>
             <form class="login-form" action="./sign-up" method="get">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <button class="btn" type="submit">Sign Up!</button>
             </form>
         </main>

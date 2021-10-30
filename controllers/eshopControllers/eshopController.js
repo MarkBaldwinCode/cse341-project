@@ -3,6 +3,7 @@ const Order = require('../../models/order');
 const User = require('../../models/user');
 const bcrypt = require('bcryptjs');
 
+
 exports.getLogin = (req, res, next) => {
   res.render('pages/eShop/login', {
     pageTitle: 'Welcome Back, Please Login',
@@ -78,7 +79,7 @@ exports.postSignUp = (req, res, next) => {
 };
 
 exports.postLogout = (req, res, next) => {
-  console.log('hit log out');
+  
   req.session.destroy(err => {
     console.log(err);
     res.redirect('/eShop');
@@ -95,7 +96,8 @@ exports.getEshopHome = (req, res, next) => {
         pageTitle: 'E Shop Home Page',
         path: '/home',
         items: products,
-        userSearchList: "" //searchList
+        userSearchList: "", //searchList
+        csrfToken: req.csrfToken()
       });
     })
     .catch(err => {
@@ -269,7 +271,7 @@ exports.postOrder = (req, res, next) => {
       });
       const order = new Order({
         user: {
-          name: req.user.name,
+          email: req.user.email,
           userId: req.user
         },
         products: products

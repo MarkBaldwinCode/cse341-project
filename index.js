@@ -5,19 +5,21 @@ const path = require('path');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const mongoose = require('mongoose');
-
+const csrf = require('csurf');
 
 const routes = require('./routes');
 const User = require('./models/user');
 const CONNECTION_STRING = 'mongodb+srv://mjbaldwin:ImeuJHQ2JSCxhNHo@cluster0.whfui.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const PORT = process.env.PORT || 3000; // So we can run on heroku || (OR) localhost:5000
-
+const csrfProtection = csrf();
 
 const app = express();
 const store = new MongoDBStore({
   uri: CONNECTION_STRING,
   collection: 'sessions'
 });
+
+
 
 app
   .use(express.static(path.join(__dirname, 'public')))
@@ -32,6 +34,7 @@ app
       store: store
     })
   )
+  .use(csrfProtection)
   .use((req, res, next) => {
     if (!req.session.user) {
       return next();
@@ -42,6 +45,11 @@ app
         next();
       })
       .catch(err => console.log(err));
+  })
+  .use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    next();
   })
   .use('/', routes);
 

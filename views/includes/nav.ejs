@@ -27,13 +27,16 @@
         </ul>
       </li>
       <li class="<%= path === '/eShop/home' ? 'active' : ''%>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <a href="/eShop"><span class=""></span>My E Shop Project</a>
       </li>
       <li class="<%= path === '/eShop/login' ? 'active' : ''%>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <a href="/eShop/login"><span class=""></span>Login</a>
       </li>
       <li class="<%= path === '/eShop' ? 'active' : ''%>">
         <form action="/eShop/logout" method="post">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <button type="submit">Logout</button>
         </form>
       </li>
