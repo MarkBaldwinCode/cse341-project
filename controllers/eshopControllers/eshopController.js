@@ -1,4 +1,90 @@
 const Product = require('../../models/product');
+const Order = require('../../models/order');
+const User = require('../../models/user');
+const bcrypt = require('bcryptjs');
+
+exports.getLogin = (req, res, next) => {
+  res.render('pages/eShop/login', {
+    pageTitle: 'Welcome Back, Please Login',
+    path: '/login'
+  });
+}
+
+exports.postLogin = (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  User
+    .findOne({ email: email })
+    .then(user => {
+      if (!user) {
+        return res.redirect('./login');
+      }
+      bcrypt
+        .compare(password, user.password)
+        .then(doMatch => {
+          if (doMatch) {
+            console.log('password matched');
+            req.session.isLoggedIn = true;
+            req.session.user = user;
+            console.log(req.session.isLoggedIn);
+            console.log(req.session.user);
+            return req.session.save(err => {
+              console.log(err);
+              res.redirect('/eShop');
+            });
+          }
+          console.log('password didnt match');
+          res.redirect('./eShop');
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect('/login');
+        })
+    })
+    .catch(err => console.log(err));
+};
+
+exports.getSignUp = (req, res, next) => {
+  res.render('pages/eShop/sign-up', {
+    path: '/sign-up',
+    pageTitle: 'Signup',
+    isAuthenticated: false
+  });
+};
+
+exports.postSignUp = (req, res, next) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
+  User.findOne({ email: email }).then(userDoc => {
+    if (userDoc) {
+      return res.redirect('./sign-up');
+    }
+    return bcrypt
+      .hash(password, 12)
+      .then(hashedPassword => {
+        const user = new User({
+          email: email,
+          password: hashedPassword,
+          cart: { items: [] }
+        });
+        return user.save();;
+      })
+  })
+    .then(result => {
+      res.redirect('./login');
+    })
+    .catch(err => console.log(err));
+};
+
+exports.postLogout = (req, res, next) => {
+  console.log('hit log out');
+  req.session.destroy(err => {
+    console.log(err);
+    res.redirect('/eShop');
+  });
+};
+
 
 exports.getEshopHome = (req, res, next) => {
   Product
@@ -157,6 +243,44 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .removeFromCart(prodId)
     .then(result => {
       res.redirect('./cart');
+    })
+    .catch(err => console.log(err));
+};
+
+exports.getOrder = (req, res, next) => {
+  console.log('hitting getOrder');
+  Order.find({ 'user.userId': req.user._id })
+    .then(orders => {
+      res.render('pages/eShop/orders', {
+        path: '/orders',
+        pageTitle: 'Your Orders',
+        orders: orders
+      });
+    })
+    .catch(err => console.log(err));
+};
+
+exports.postOrder = (req, res, next) => {
+  req.user
+    .populate('cart.items.productId')
+    .then(user => {
+      const products = user.cart.items.map(i => {
+        return { quantity: i.quantity, productData: { ...i.productId._doc } };
+      });
+      const order = new Order({
+        user: {
+          name: req.user.name,
+          userId: req.user
+        },
+        products: products
+      });
+      return order.save();
+    })
+    .then(result => {
+      return req.user.clearCart();
+    })
+    .then(() => {
+      res.redirect('/eShop/orders');
     })
     .catch(err => console.log(err));
 };

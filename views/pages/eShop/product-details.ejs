@@ -31,9 +31,7 @@
                 </p>
             </div>
             <div style="padding: 2%;">
-                <form action="/eShop/cart" method='post'>
-                    <button type="submit">Add to Cart</button>
-                </form>
+                <% include ../../includes/add-to-cart.ejs %>
                 <form action="/eShop/edit-product/<%= item._id %>" method='get'>
                     <button type="submit">Edit Product</button>
                 </form>
