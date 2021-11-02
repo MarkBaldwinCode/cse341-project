@@ -1,6 +1,6 @@
 const eShopRoutes = require('express').Router()
 const eshopController = require('../../controllers/eshopControllers/eshopController');
-const isAuth = require('../../middleware/is-Auth');
+const isAuth = require('../../middleware/is-auth');
 
 eShopRoutes
     .get('/login',  eshopController.getLogin)
