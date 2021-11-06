@@ -43,10 +43,9 @@
 }
 
 .grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: 30% 30% 30% 30%;
+  
 }
 
 .card {

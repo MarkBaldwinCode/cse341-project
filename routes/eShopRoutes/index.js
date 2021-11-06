@@ -17,10 +17,11 @@ eShopRoutes
     .get('/product-details', eshopController.getProductDetails)
     .get('/edit-product/:productId', isAuth, eshopController.getEditProduct)
     .post('/edit-product/:productId', isAuth, eshopController.postEditProduct)
-    .get('/:productId', eshopController.getProduct)
+    .get('/orders',  eshopController.getOrder)
     .post('/delete-product/:productId', isAuth, eshopController.postDeleteProduct)
     .post('/create-order', isAuth, eshopController.postOrder)
-    .get('/orders', isAuth, eshopController.getOrder);
+    .get('/:productId', eshopController.getProduct);
+    
     
 
 module.exports = eShopRoutes;

@@ -78,14 +78,12 @@ exports.postSignUp = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
-exports.postLogout = (req, res, next) => {
-  
+exports.postLogout = (req, res, next) => { 
   req.session.destroy(err => {
     console.log(err);
     res.redirect('/eShop');
   });
 };
-
 
 exports.getEshopHome = (req, res, next) => {
   Product
@@ -145,8 +143,8 @@ exports.postAddProducts = (req, res, next) => {
   product
     .save()
     .then(result => {
-      console.log('Created Product');
-      console.log(product);
+      //console.log('Created Product');
+      //console.log(product);
       res.redirect('/eShop');
     })
 }
@@ -233,8 +231,6 @@ exports.postCart = (req, res, next) => {
       return req.user.addToCart(product);
     })
     .then(result => {
-      console.log(result);
-      console.log('hitting postCart');
       res.redirect('/eShop/cart');
     });
 }
@@ -250,7 +246,6 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.getOrder = (req, res, next) => {
-  console.log('hitting getOrder');
   Order.find({ 'user.userId': req.user._id })
     .then(orders => {
       res.render('pages/eShop/orders', {
@@ -261,6 +256,8 @@ exports.getOrder = (req, res, next) => {
     })
     .catch(err => console.log(err));
 };
+
+
 
 exports.postOrder = (req, res, next) => {
   req.user
